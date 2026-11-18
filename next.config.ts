@@ -23,6 +23,9 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  // Public storage hostname (already visible in every image URL) so client components can
+  // tell which images next/image may optimise. Matches the remotePatterns entry below.
+  env: { SUPABASE_IMAGE_HOST: supabaseHost ?? "" },
   turbopack: {
     rules: {
       "*.css": {

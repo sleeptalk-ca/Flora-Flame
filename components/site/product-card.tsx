@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SmartImage } from "@/components/ui/smart-image";
-import { AvailabilityBadge, Badge } from "@/components/ui/badge";
+import { AvailabilityBadge } from "@/components/ui/badge";
 import { formatCAD, cn } from "@/lib/utils";
 import type { ProductWithCategory } from "@/lib/types";
 
@@ -34,9 +34,6 @@ export function ProductCard({
           <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
             <AvailabilityBadge value={product.availability} />
           </div>
-          <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5">
-            {product.is_demo && <Badge tone="neutral">Demo</Badge>}
-          </div>
           {product.image_is_illustrative && (
             <span className="absolute bottom-3 left-3 text-[10px] tracking-[0.12em] text-cream/70 uppercase">Illustrative image</span>
           )}
@@ -54,7 +51,7 @@ export function ProductCard({
           </div>
           <div className="shrink-0 text-right">
             <p className="text-sm font-medium text-cream">{formatCAD(product.price_cents)}</p>
-            <p className="text-[10px] tracking-wide text-muted uppercase">CAD{product.is_demo ? " · demo" : ""}</p>
+            <p className="text-[10px] tracking-wide text-muted uppercase">CAD</p>
           </div>
         </div>
       </Link>

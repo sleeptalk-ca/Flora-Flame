@@ -4,8 +4,9 @@ const OPTIMIZABLE = [/^https:\/\/images\.pexels\.com\//, /^https:\/\/images\.uns
 
 function isOptimizable(src: string) {
   if (OPTIMIZABLE.some((re) => re.test(src))) return true;
-  const sb = process.env.SUPABASE_URL;
-  return Boolean(sb && src.startsWith(`${sb.replace(/\/$/, "")}/storage/v1/object/public/`));
+  // Inlined at build time by next.config (works in client components too).
+  const host = process.env.SUPABASE_IMAGE_HOST;
+  return Boolean(host && src.startsWith(`https://${host}/storage/v1/object/public/`));
 }
 
 /**

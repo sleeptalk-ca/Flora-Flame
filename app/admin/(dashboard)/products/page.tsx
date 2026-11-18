@@ -86,7 +86,6 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
                         {p.name}
                       </Link>
                       <div className="mt-1 flex flex-wrap gap-1">
-                        {p.is_demo && <Badge tone="muted">Demo</Badge>}
                         {p.is_featured && <Badge tone="accent">Featured</Badge>}
                         {p.is_best_seller && <Badge tone="neutral">Best seller</Badge>}
                       </div>

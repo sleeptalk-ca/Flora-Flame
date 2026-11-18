@@ -140,12 +140,6 @@ export function ProductForm({ product, categories }: { product?: Product; catego
           <CheckboxField name="is_best_seller" label="Best seller" description="Shown in the best sellers row" defaultChecked={product?.is_best_seller} />
           <div className="border-t border-line pt-4" />
           <CheckboxField
-            name="is_demo"
-            label="Demo listing"
-            description="Shows a “Demo” label and “demo price” on the storefront"
-            defaultChecked={product?.is_demo ?? false}
-          />
-          <CheckboxField
             name="image_is_illustrative"
             label="Illustrative image"
             description="Labels the image as not depicting the actual product"

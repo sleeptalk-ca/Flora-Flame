@@ -85,8 +85,7 @@ export default function ShopPage({ searchParams }: { searchParams: SearchParams 
         <div className="mb-10 flex items-start gap-3 rounded-2xl border border-line bg-surface p-4 text-sm text-muted">
           <Info className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
           <p>
-            Online ordering is not available yet. Prices are shown in CAD; listings marked <strong className="text-cream">Demo</strong> are
-            samples with illustrative imagery. Product information is provided by the licensed producer or supplier — contact us with any
+            Online ordering is not available yet. Prices are shown in CAD, and product photos may be illustrative. Product information is provided by the licensed producer or supplier — contact us with any
             questions.
           </p>
         </div>

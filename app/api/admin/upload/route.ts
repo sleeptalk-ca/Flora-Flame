@@ -3,7 +3,8 @@ import { assertAdminForApi } from "@/lib/auth/guard";
 import { getStore, StoreError } from "@/lib/data";
 import { rateLimit } from "@/lib/rate-limit";
 
-const MAX_BYTES = 5 * 1024 * 1024;
+// Vercel rejects request bodies over 4.5 MB; the admin UI compresses images in the browser before upload.
+const MAX_BYTES = 4 * 1024 * 1024;
 
 /** Detect image type from magic bytes — never trust the client-supplied MIME type. */
 function sniff(b: Uint8Array): { contentType: string; extension: string } | null {
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
 
   const len = Number(request.headers.get("content-length") ?? 0);
   if (len > MAX_BYTES + 64 * 1024) {
-    return NextResponse.json({ error: "Image must be 5 MB or smaller." }, { status: 413 });
+    return NextResponse.json({ error: "Image must be 4 MB or smaller." }, { status: 413 });
   }
 
   let file: File | null = null;
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid upload." }, { status: 400 });
   }
   if (!file || file.size === 0) return NextResponse.json({ error: "Choose an image to upload." }, { status: 400 });
-  if (file.size > MAX_BYTES) return NextResponse.json({ error: "Image must be 5 MB or smaller." }, { status: 413 });
+  if (file.size > MAX_BYTES) return NextResponse.json({ error: "Image must be 4 MB or smaller." }, { status: 413 });
 
   const bytes = new Uint8Array(await file.arrayBuffer());
   const type = sniff(bytes);

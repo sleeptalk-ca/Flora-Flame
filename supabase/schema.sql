@@ -114,6 +114,13 @@ create policy "Public can read site settings" on public.site_settings
 
 -- No policies on orders / inquiries: only the service role (server) can access them.
 
+-- Table privileges for the Data API roles. Newer Supabase projects no longer grant these
+-- automatically for tables created in SQL. RLS above still limits what anon/authenticated see.
+grant usage on schema public to anon, authenticated, service_role;
+grant select, insert, update, delete on all tables in schema public to service_role;
+grant select on public.categories, public.products, public.site_settings to anon, authenticated;
+revoke all on public.orders, public.inquiries from anon, authenticated;
+
 -- Storage bucket for product images (public read; uploads only via server/service role) ──
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('product-images', 'product-images', true, 5242880, array['image/jpeg', 'image/png', 'image/webp', 'image/avif'])

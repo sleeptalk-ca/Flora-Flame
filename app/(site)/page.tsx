@@ -123,7 +123,7 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Featured collection"
               title={<>The current <em className="text-accent">edit</em></>}
-              description="Hand-picked by the house this season. Listings marked Demo are samples with illustrative imagery."
+              description="Hand-picked by the house this season."
               action={
                 <LinkButton href="/shop" variant="outline">
                   View all <ArrowRight className="size-4" />

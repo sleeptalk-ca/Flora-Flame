@@ -1,11 +1,12 @@
 import "server-only";
-import { timingSafeEqual } from "node:crypto";
+import { createHash, timingSafeEqual } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 import { verifyPassword } from "./password";
 
 /**
  * Admin credential check. Two modes (ADMIN_AUTH_MODE):
- *  - "env" (default): ADMIN_EMAIL + ADMIN_PASSWORD_HASH (scrypt) from server env vars.
+ *  - "env" (default): ADMIN_EMAIL + ADMIN_PASSWORD_HASH (scrypt, preferred) or ADMIN_PASSWORD (plain text)
+ *    from server env vars. These are never sent to the browser.
  *  - "supabase": Supabase Auth email/password; the email must also be in ADMIN_EMAILS (allowlist).
  */
 export async function verifyAdminCredentials(email: string, password: string): Promise<boolean> {
@@ -29,13 +30,21 @@ export async function verifyAdminCredentials(email: string, password: string): P
   }
 
   const adminEmail = (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
-  const hash = process.env.ADMIN_PASSWORD_HASH || "";
-  if (!adminEmail || !hash) return false;
+  // ADMIN_PASSWORD_HASH (scrypt) takes precedence; ADMIN_PASSWORD (plain text in server env) is the fallback.
+  const hash = (process.env.ADMIN_PASSWORD_HASH || "").trim();
+  const plain = process.env.ADMIN_PASSWORD || "";
+  if (!adminEmail || (!hash && !plain)) return false;
 
-  // Always run the (slow) hash check to keep timing uniform regardless of email match.
-  const passwordOk = await verifyPassword(password, hash);
-  const a = Buffer.from(normalized.padEnd(200));
-  const b = Buffer.from(adminEmail.padEnd(200));
-  const emailOk = a.length === b.length && timingSafeEqual(a, b);
+  // Compare both email and password in constant time, and always do the password check,
+  // so response timing doesn't reveal which part was wrong.
+  const passwordOk = hash ? await verifyPassword(password, hash) : safeEqual(password, plain);
+  const emailOk = safeEqual(normalized, adminEmail);
   return emailOk && passwordOk;
+}
+
+/** Constant-time string comparison (digests are always 32 bytes, so lengths never leak or throw). */
+function safeEqual(a: string, b: string) {
+  const da = createHash("sha256").update(a, "utf8").digest();
+  const db = createHash("sha256").update(b, "utf8").digest();
+  return timingSafeEqual(da, db);
 }

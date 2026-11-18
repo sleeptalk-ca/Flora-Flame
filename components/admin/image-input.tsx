@@ -5,10 +5,53 @@ import { ImagePlus, Link2, Loader2, Trash2, Upload } from "lucide-react";
 import { inputClasses, FieldError, Label } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
 
+const MAX_UPLOAD_BYTES = 4 * 1024 * 1024; // stays under Vercel's 4.5 MB request-body limit
+const MAX_DIMENSION = 2400;
+const ACCEPTED = ["image/jpeg", "image/png", "image/webp", "image/avif"];
+
+/**
+ * Resize (longest side ≤ 2400px) and re-encode in the browser before uploading.
+ * Large phone photos (5–12 MB) shrink to a few hundred KB, which keeps uploads under hosting limits,
+ * makes them fast, and strips EXIF metadata such as GPS location.
+ */
+async function prepareImage(file: File): Promise<Blob> {
+  if (!ACCEPTED.includes(file.type)) throw new Error("Use a JPG, PNG, WebP or AVIF image.");
+  if (file.size > 25 * 1024 * 1024) throw new Error("That file is too large (max 25 MB before compression).");
+
+  let bitmap: ImageBitmap;
+  try {
+    bitmap = await createImageBitmap(file);
+  } catch {
+    // Browser can't decode it (e.g. AVIF on an older browser) — send as-is if small enough.
+    if (file.size <= MAX_UPLOAD_BYTES) return file;
+    throw new Error("This image couldn't be processed. Try a JPG or PNG under 4 MB.");
+  }
+
+  const scale = Math.min(1, MAX_DIMENSION / Math.max(bitmap.width, bitmap.height));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return file;
+  ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+
+  const encode = (type: string, quality: number) =>
+    new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type, quality));
+  // WebP keeps transparency; fall back to JPEG where WebP encoding isn't supported.
+  for (const quality of [0.86, 0.75, 0.6]) {
+    let blob = await encode("image/webp", quality);
+    if (!blob || blob.type !== "image/webp") blob = await encode("image/jpeg", quality);
+    if (blob && blob.size <= MAX_UPLOAD_BYTES) return blob;
+  }
+  throw new Error("Image is still too large after compression. Try a smaller image.");
+}
+
 async function uploadFile(file: File): Promise<string> {
-  if (file.size > 5 * 1024 * 1024) throw new Error("Image must be 5 MB or smaller.");
+  const prepared = await prepareImage(file);
+  const ext = prepared.type === "image/webp" ? "webp" : prepared.type === "image/jpeg" ? "jpg" : file.name.split(".").pop();
   const body = new FormData();
-  body.append("file", file);
+  body.append("file", new File([prepared], `upload.${ext}`, { type: prepared.type }));
   const res = await fetch("/api/admin/upload", { method: "POST", body });
   const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
   if (!res.ok || !data.url) throw new Error(data.error || "Upload failed.");
@@ -115,7 +158,7 @@ export function ImageInput({
               </button>
             )}
           </div>
-          <p className="text-xs text-muted">JPG, PNG, WebP or AVIF · max 5 MB.</p>
+          <p className="text-xs text-muted">JPG, PNG, WebP or AVIF. Large photos are resized automatically.</p>
           <FieldError id={`${id}-err`} message={localError ?? error} />
         </div>
       </div>

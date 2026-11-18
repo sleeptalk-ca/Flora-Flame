@@ -7,7 +7,7 @@ import { ProductGallery } from "@/components/site/product-gallery";
 import { ProductCard } from "@/components/site/product-card";
 import { Container, Eyebrow } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
-import { AvailabilityBadge, Badge } from "@/components/ui/badge";
+import { AvailabilityBadge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/button";
 import { getProductBySlug, getProducts, getRelatedProducts } from "@/lib/data/queries";
 import { formatCAD, AVAILABILITY_LABEL } from "@/lib/utils";
@@ -41,7 +41,7 @@ async function ProductDetail({ params }: { params: Params }) {
   const restricted = product.category?.restricted ?? "none";
   const info: [string, string][] = [
     ["Category", product.category?.name ?? "—"],
-    ["Price", `${formatCAD(product.price_cents)} CAD${product.is_demo ? " (demo price)" : ""}`],
+    ["Price", `${formatCAD(product.price_cents)} CAD`],
     ["Availability", AVAILABILITY_LABEL[product.availability]],
     ...(product.sku ? ([["SKU", product.sku]] as [string, string][]) : []),
     ["Age requirement", "19+ with valid government-issued photo ID"],
@@ -76,7 +76,6 @@ async function ProductDetail({ params }: { params: Params }) {
           <div className="animate-fade-up">
             <div className="flex flex-wrap items-center gap-2">
               <AvailabilityBadge value={product.availability} />
-              {product.is_demo && <Badge>Demo listing</Badge>}
             </div>
             <p className="mt-6 text-[11px] font-semibold tracking-[0.3em] text-accent uppercase">{product.category?.name}</p>
             <h1 className="mt-3 font-display text-5xl leading-[1] tracking-tight md:text-7xl">{product.name}</h1>
@@ -84,7 +83,7 @@ async function ProductDetail({ params }: { params: Params }) {
 
             <div className="mt-8 flex items-baseline gap-3 border-y border-line py-6">
               <span className="font-display text-4xl">{formatCAD(product.price_cents)}</span>
-              <span className="text-xs tracking-[0.14em] text-muted uppercase">CAD{product.is_demo ? " · demo price" : ""}</span>
+              <span className="text-xs tracking-[0.14em] text-muted uppercase">CAD</span>
             </div>
 
             {restricted === "tobacco" && (

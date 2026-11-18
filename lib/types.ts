@@ -44,7 +44,7 @@ export interface Product {
   is_featured: boolean;
   is_best_seller: boolean;
   is_active: boolean;
-  /** Demo listing — shown with a visible "Demo" label on the storefront. */
+  /** Legacy flag; no longer shown on the storefront. */
   is_demo: boolean;
   /** Image is a stock/illustrative photo, not the actual product. */
   image_is_illustrative: boolean;

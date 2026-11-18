@@ -28,7 +28,6 @@ const COLUMNS = [
       { href: "/about", label: "Our story" },
       { href: "/contact", label: "Contact" },
       { href: "/checkout", label: "Ordering status" },
-      { href: "/legal/image-credits", label: "Image credits" },
     ],
   },
   {
@@ -95,7 +94,7 @@ export async function Footer() {
           </p>
           <p className="mt-2">
             <strong className="text-cream">Tobacco warning:</strong> Tobacco products, including grabba, contain nicotine, which is highly
-            addictive. Product imagery on this site is illustrative and listings marked &ldquo;Demo&rdquo; are samples.
+            addictive. Product imagery on this site may be illustrative.
           </p>
         </div>
 

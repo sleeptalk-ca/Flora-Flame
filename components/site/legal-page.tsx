@@ -9,7 +9,6 @@ const LEGAL_NAV = [
   { href: "/legal/shipping", label: "Shipping & pickup" },
   { href: "/legal/refunds", label: "Refunds & returns" },
   { href: "/legal/compliance", label: "Compliance" },
-  { href: "/legal/image-credits", label: "Image credits" },
 ];
 
 export const LEGAL_UPDATED = "November 18, 2026";

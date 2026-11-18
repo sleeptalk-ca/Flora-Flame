@@ -14,7 +14,6 @@ A premium, responsive storefront and admin dashboard for a North York cannabis-l
 ```bash
 npm install
 cp .env.example .env            # then fill in the values below
-npm run hash-password -- "a strong password of 12+ chars"   # → paste ADMIN_PASSWORD_HASH
 npm run dev                      # http://localhost:3000
 ```
 
@@ -25,17 +24,22 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 DATA_BACKEND=local
 ADMIN_SESSION_SECRET=<48+ random chars>   # node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
 ADMIN_EMAIL=you@example.com
-ADMIN_PASSWORD_HASH=scrypt:16384:...
+ADMIN_PASSWORD=your-strong-password
 ```
 
+`ADMIN_PASSWORD` is read only on the server and never sent to the browser. For extra safety you can store a
+hash instead: `npm run hash-password -- "your password"` and set `ADMIN_PASSWORD_HASH` (the hash wins if both
+are set).
+
 With `DATA_BACKEND=local` the site runs on a JSON file (`data/store.json`) seeded with demo content — no database
-needed. Admin: **/admin** (sign in with `ADMIN_EMAIL` and the password you hashed).
+needed. Admin: **/admin** (sign in with `ADMIN_EMAIL` / `ADMIN_PASSWORD`).
 
 | Script | Purpose |
 | --- | --- |
 | `npm run dev` / `build` / `start` | Develop, build, serve |
 | `npm run lint` / `typecheck` | ESLint / TypeScript |
-| `npm run hash-password -- "pw"` | Generate `ADMIN_PASSWORD_HASH` (scrypt, `.env`-safe) |
+| `npm run hash-password -- "pw"` | Optional: generate `ADMIN_PASSWORD_HASH` (scrypt) instead of a plain password |
+| `npm run db:migrate` | Create/update the Supabase schema (needs `DATABASE_STRING`) |
 | `npm run db:seed [-- --demo-data]` | Seed Supabase with the demo catalogue (optionally demo orders) |
 | `npm run data:reset` | Reset the local JSON store to seed data |
 
@@ -74,7 +78,7 @@ can sign in.
 - Shop with category tabs, search and sorting (URL-driven, shareable)
 - Product pages: gallery, CAD pricing, product information, related products, "Ask about this product"
 - About, Contact (validated form with honeypot + rate limiting), ordering-status page
-- Legal: Terms, Privacy (PIPEDA), Shipping & pickup, Refunds, Compliance, Image credits
+- Legal: Terms, Privacy (PIPEDA), Shipping & pickup, Refunds, Compliance
 - Age gate (19+), SEO metadata, Open Graph, JSON-LD, `sitemap.xml`, `robots.txt`, scroll-reveal animations,
   reduced-motion support, mobile navigation
 
@@ -127,9 +131,9 @@ supabase/schema.sql  database schema + RLS + storage bucket
 ## Images
 
 Sample photography comes from **Pexels** (free under the [Pexels licence](https://www.pexels.com/license/)). Every
-URL was checked as reachable when the site was built. Product images are flagged **"Illustrative image"** and
-listings are flagged **"Demo"**. Credits are listed at `/legal/image-credits`. Replace images in **Admin → Products**
-(upload or URL) and **Admin → Homepage** (hero). Demo product copy contains no THC/CBD figures, effect claims or
+URL was checked as reachable when the site was built. Product images are flagged **"Illustrative image"**.
+Replace images in **Admin → Products**
+(upload or URL) and **Admin → Homepage** (hero). Sample product copy contains no THC/CBD figures, effect claims or
 certifications.
 
 ---
@@ -158,7 +162,38 @@ qualified Ontario counsel:
 
 ---
 
-## Deploying
+## Deploying to Vercel
 
-Deploy to any Node.js host that supports Next.js 16 (e.g. Vercel). Set all environment variables in the host
-dashboard, use `DATA_BACKEND=supabase`, and set `NEXT_PUBLIC_SITE_URL` to your production domain.
+1. **Import** the GitHub repo in Vercel (Framework preset: Next.js — no build settings to change).
+2. **Prepare Supabase first** (once): `npm run db:migrate` (needs `DATABASE_STRING` — use the *Session pooler* URI)
+   and `npm run db:seed`, or paste `supabase/schema.sql` into the Supabase SQL Editor.
+3. **Environment variables** (Vercel → Project → Settings → Environment Variables):
+
+   | Variable | Value |
+   | --- | --- |
+   | `NEXT_PUBLIC_SITE_URL` | `https://your-domain.ca` |
+   | `DATA_BACKEND` | `supabase` |
+   | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
+   | `SUPABASE_SERVICE_ROLE_KEY` | Supabase **secret** key (`sb_secret_…`) |
+   | `SUPABASE_STORAGE_BUCKET` | `product-images` |
+   | `ADMIN_SESSION_SECRET` | new random 48+ char string (don't reuse your local one) |
+   | `ADMIN_EMAIL` | admin login email |
+   | `ADMIN_PASSWORD` *or* `ADMIN_PASSWORD_HASH` | admin password (hash recommended) |
+
+   `DATABASE_STRING` is **not** needed on Vercel — it's only for running migrations from your computer.
+4. **Redeploy** after changing environment variables (`SUPABASE_URL` is read at build time to allow
+   Supabase-hosted images through Next's image optimizer).
+
+### Images on Vercel
+
+Vercel's file system is read-only and temporary, so uploads are never stored on the server:
+
+- Admin uploads go to the **Supabase Storage** bucket `product-images` (public read, images only, 5 MB cap)
+  and are served from Supabase's CDN, then optimized by `next/image`.
+- Before uploading, the admin's browser **resizes** images (longest side 2400px) and re-encodes them as WebP,
+  so 5–12 MB phone photos become a few hundred KB. This keeps uploads under Vercel's 4.5 MB request limit and
+  strips EXIF metadata such as GPS location. The server re-checks the file signature and caps uploads at 4 MB.
+- The local file store (`DATA_BACKEND=local`) refuses to run on Vercel with a clear error, so data can't be
+  silently lost.
+- Replacing or deleting a product does not delete its old image from Storage; clean up unused files in the
+  Supabase dashboard (Storage → product-images) from time to time.

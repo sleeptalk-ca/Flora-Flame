@@ -24,9 +24,8 @@ export default function TermsPage() {
       </p>
       <h2>3. Product information and imagery</h2>
       <ul>
-        <li>Listings marked &ldquo;Demo&rdquo; are samples and may not represent products currently offered.</li>
         <li>Images marked &ldquo;Illustrative&rdquo; are stock photography and do not show the actual product.</li>
-        <li>Prices are shown in Canadian dollars (CAD) and may change without notice. Demo prices are placeholders.</li>
+        <li>Prices are shown in Canadian dollars (CAD) and may change without notice.</li>
         <li>Regulated product information (for example, cannabinoid content) is shown only as provided on the producer&rsquo;s label.</li>
       </ul>
       <h2>4. No health claims</h2>
@@ -40,7 +39,7 @@ export default function TermsPage() {
       <h2>6. Intellectual property</h2>
       <p>
         The Flora &amp; Flame name, logo and original content belong to the operator. Third-party photography is used under the
-        licence of its source (see Image credits).
+        licence of its source.
       </p>
       <h2>7. Limitation of liability</h2>
       <p>

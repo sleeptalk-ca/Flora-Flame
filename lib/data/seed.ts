@@ -1,7 +1,7 @@
 /**
  * Seed / demo data for Flora & Flame.
  *
- * Every product is flagged `is_demo` and `image_is_illustrative` so the storefront labels it clearly.
+ * Product images are flagged `image_is_illustrative` so the storefront labels them clearly.
  * Copy intentionally contains NO potency (THC/CBD), terpene, origin or certification claims —
  * operators must replace it with information from the licensed producer's regulated label.
  *
@@ -29,33 +29,6 @@ export const IMAGES = {
   accessoriesFlatlay: pexels(8139194, 1600),
   tobaccoLeaves: pexels(27793718, 1600),
 } as const;
-
-/** Photo credits page data (Pexels licence does not require attribution, but we credit anyway). */
-export const IMAGE_CREDITS: { id: number; subject: string }[] = [
-  { id: 2478248, subject: "Toronto cityscape at night" },
-  { id: 19733715, subject: "Toronto skyline at dusk" },
-  { id: 6136496, subject: "Toronto buildings at night" },
-  { id: 3671394, subject: "Toronto skyline reflection" },
-  { id: 29568188, subject: "Toronto skyline with CN Tower" },
-  { id: 8582241, subject: "Toronto at night" },
-  { id: 5863513, subject: "Dark lounge interior" },
-  { id: 4846221, subject: "Lounge with arches" },
-  { id: 33196901, subject: "Moody hallway" },
-  { id: 34246666, subject: "Cannabis flower on black" },
-  { id: 3047447, subject: "Cannabis flower macro" },
-  { id: 6462279, subject: "Cannabis flower on wood" },
-  { id: 7667742, subject: "Hand holding cannabis flower" },
-  { id: 7773109, subject: "Cannabis flower in container" },
-  { id: 27793718, subject: "Dried tobacco leaves" },
-  { id: 8804298, subject: "Hand holding a dried tobacco leaf" },
-  { id: 12627162, subject: "Crushed dried leaf in a glass jar (grabba shaker, illustrative)" },
-  { id: 227908, subject: "Crushed dried leaf on slate (grabba shaker trio, illustrative)" },
-  { id: 8139103, subject: "Grinder on table" },
-  { id: 8139194, subject: "Accessories flat lay" },
-  { id: 8139707, subject: "Rolling papers on wood" },
-  { id: 8139069, subject: "Glass storage jar" },
-  { id: 7852569, subject: "Tray and accessories" },
-];
 
 const CAT = {
   flowers: "c0000000-0000-4000-8000-000000000001",
@@ -103,13 +76,13 @@ export const seedCategories: Category[] = [
 ];
 
 const FLOWER_COPY =
-  "Demo listing for a premium dried flower product. Replace this placeholder with the licensed producer's approved product information — including any potency and terpene figures exactly as printed on the regulated Health Canada label. Sold only where the operator holds the required Ontario authorization.";
+  "Premium dried cannabis flower. Potency and terpene information appears on the regulated Health Canada label of each package. Sold only where the operator holds the required Ontario authorization.";
 
 const GRABBA_COPY =
-  "Demo listing for natural, fire-cured tobacco leaf. Replace this placeholder with the supplier's product information. WARNING: Tobacco products contain nicotine, which is highly addictive. Sold only to adults 19+ in accordance with the Smoke-Free Ontario Act, 2017.";
+  "Natural, fire-cured tobacco leaf. WARNING: Tobacco products contain nicotine, which is highly addictive. Sold only to adults 19+ in accordance with the Smoke-Free Ontario Act, 2017.";
 
 const GRABBA_SHAKER_COPY =
-  "Demo listing for pre-crushed, fire-cured tobacco leaf packed in a flip-top shaker jar — ready to sprinkle, with no breaking down by hand. Replace this placeholder with the supplier's product information and net weight. WARNING: Tobacco products contain nicotine, which is highly addictive. Sold only to adults 19+ in accordance with the Smoke-Free Ontario Act, 2017.";
+  "Pre-crushed, fire-cured tobacco leaf packed in a flip-top shaker jar — ready to sprinkle, with no breaking down by hand. Net weight is printed on the jar. WARNING: Tobacco products contain nicotine, which is highly addictive. Sold only to adults 19+ in accordance with the Smoke-Free Ontario Act, 2017.";
 
 type SeedProduct = Omit<Product, "created_at" | "updated_at" | "is_demo" | "image_is_illustrative" | "is_active">;
 
@@ -293,7 +266,7 @@ const baseProducts: SeedProduct[] = [
     name: "Brushed Steel Grinder",
     short_description: "Four-piece grinder with precision-cut teeth and a magnetic lid.",
     description:
-      "Demo listing. A four-piece grinder with sharp, precision-cut teeth, a magnetic lid and a fine mesh screen. Replace this copy with the supplier's product details.",
+      "A four-piece grinder with sharp, precision-cut teeth, a magnetic lid and a fine mesh screen.",
     price_cents: 4200,
     category_id: CAT.accessories,
     image_url: pexels(8139103),
@@ -311,7 +284,7 @@ const baseProducts: SeedProduct[] = [
     name: "Walnut Rolling Tray",
     short_description: "A low-profile tray with a raised edge — designed to live on the coffee table.",
     description:
-      "Demo listing. A minimal tray with a raised lip to keep everything in place. Replace this copy with the supplier's product details.",
+      "A minimal tray with a raised lip to keep everything in place.",
     price_cents: 3800,
     category_id: CAT.accessories,
     image_url: pexels(7852569),
@@ -329,7 +302,7 @@ const baseProducts: SeedProduct[] = [
     name: "Unbleached Rolling Papers",
     short_description: "Slow-burning, unbleached papers in a slim booklet.",
     description:
-      "Demo listing. Unbleached rolling papers in a slim booklet. Replace this copy with the supplier's product details.",
+      "Unbleached rolling papers in a slim booklet.",
     price_cents: 400,
     category_id: CAT.accessories,
     image_url: pexels(8139707),
@@ -347,7 +320,7 @@ const baseProducts: SeedProduct[] = [
     name: "Airtight Glass Jar",
     short_description: "Thick glass storage with an airtight seal and a matte finish.",
     description:
-      "Demo listing. Airtight glass storage with a sealing lid. Replace this copy with the supplier's product details.",
+      "Airtight glass storage with a sealing lid.",
     price_cents: 2600,
     category_id: CAT.accessories,
     image_url: pexels(8139069),
@@ -365,7 +338,7 @@ const baseProducts: SeedProduct[] = [
     name: "The Essentials Kit",
     short_description: "Grinder, papers, tips and storage — everything in one considered set.",
     description:
-      "Demo listing. A curated set of everyday accessories presented in a gift box. Contents may vary — replace this copy with the final kit contents.",
+      "A curated set of everyday accessories presented in a gift box. Contents may vary.",
     price_cents: 7900,
     category_id: CAT.accessories,
     image_url: IMAGES.accessoriesFlatlay,
@@ -382,7 +355,7 @@ const baseProducts: SeedProduct[] = [
 export const seedProducts: Product[] = baseProducts.map((p) => ({
   ...p,
   is_active: true,
-  is_demo: true,
+  is_demo: false,
   image_is_illustrative: true,
   created_at: SEED_TIME,
   updated_at: SEED_TIME,
