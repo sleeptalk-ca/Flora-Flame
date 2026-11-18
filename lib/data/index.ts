@@ -17,9 +17,15 @@ export function getStore(): DataStore {
   const useLocal = explicit === "local" || (explicit !== "supabase" && !isSupabaseConfigured());
   if (useLocal && process.env.VERCEL) {
     // Vercel's file system is read-only/ephemeral: products and uploaded images would be lost.
-    throw new StoreError(
-      "The local file data store can't run on Vercel. Set DATA_BACKEND=supabase with SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in the Vercel project settings.",
-    );
+    const missing = ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"].filter((k) => !process.env[k]);
+    const reason =
+      explicit === "local"
+        ? "DATA_BACKEND is set to \"local\""
+        : `missing environment variable(s): ${missing.join(", ")}`;
+    const message = `[Flora & Flame] Can't use the local file store on Vercel (${reason}). In Vercel → Settings → Environment Variables set DATA_BACKEND=supabase, SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY for this environment, then redeploy.`;
+    // Production builds hide error messages, so log it explicitly for the build/runtime logs.
+    console.error(message);
+    throw new StoreError(message);
   }
   return useLocal ? localStore : supabaseStore;
 }
