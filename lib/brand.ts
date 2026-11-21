@@ -1,10 +1,10 @@
 /** Single source of truth for brand identity. Contact details live in editable site settings. */
 export const BRAND = {
-  name: "Flora & Flame",
-  shortName: "Flora & Flame",
+  name: "Talk To Me",
+  shortName: "TTM",
   tagline: "Premium Toronto Lifestyle.",
   description:
-    "Flora & Flame is a premium Toronto lifestyle brand based in North York, Ontario — a curated edit of cannabis flower, grabba and accessories for adults 19+.",
+    "Talk To Me is a premium Toronto lifestyle brand based in North York, Ontario — a curated edit of cannabis flower, grabba and accessories for adults 19+.",
   locale: "en_CA",
   region: "North York, Toronto, Ontario",
   minimumAge: 19,

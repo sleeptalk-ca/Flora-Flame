@@ -8,7 +8,7 @@ export default function CompliancePage() {
     <LegalPage
       current="/legal/compliance"
       title="Compliance"
-      intro="How Flora & Flame approaches age, licensing, marketing and payment rules in Ontario."
+      intro="How Talk To Me approaches age, licensing, marketing and payment rules in Ontario."
     >
       <h2>Legal age</h2>
       <p>

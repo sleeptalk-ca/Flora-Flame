@@ -114,7 +114,7 @@ export function AdminSidebar({ email, newInquiries }: { email: string; newInquir
           <Link href="/admin" className="mb-8 flex items-center gap-3 px-3 pt-2">
             <LogoMark className="size-7 text-accent" />
             <span className="leading-tight">
-              <span className="block font-display text-xl">Flora &amp; Flame</span>
+              <span className="block font-display text-xl">Talk To Me</span>
               <span className="block text-[10px] tracking-[0.24em] text-muted uppercase">Admin</span>
             </span>
           </Link>

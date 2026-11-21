@@ -22,7 +22,7 @@ export function getStore(): DataStore {
       explicit === "local"
         ? "DATA_BACKEND is set to \"local\""
         : `missing environment variable(s): ${missing.join(", ")}`;
-    const message = `[Flora & Flame] Can't use the local file store on Vercel (${reason}). In Vercel → Settings → Environment Variables set DATA_BACKEND=supabase, SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY for this environment, then redeploy.`;
+    const message = `[Talk To Me] Can't use the local file store on Vercel (${reason}). In Vercel → Settings → Environment Variables set DATA_BACKEND=supabase, SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY for this environment, then redeploy.`;
     // Production builds hide error messages, so log it explicitly for the build/runtime logs.
     console.error(message);
     throw new StoreError(message);

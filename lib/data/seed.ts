@@ -1,5 +1,5 @@
 /**
- * Seed / demo data for Flora & Flame.
+ * Seed / demo data for Talk To Me.
  *
  * Product images are flagged `image_is_illustrative` so the storefront labels them clearly.
  * Copy intentionally contains NO potency (THC/CBD), terpene, origin or certification claims —
@@ -363,7 +363,7 @@ export const seedProducts: Product[] = baseProducts.map((p) => ({
 
 export const seedSettings: SiteSettings = {
   contact_email: "sleeptalktoronto@proton.me",
-  contact_phone: "+1 (647) 512-6054",
+  contact_phone: "+1 (249) 875-8541",
   contact_address: "North York, Ontario, Canada",
   business_hours: "By appointment — contact us for availability",
   instagram_url: "",

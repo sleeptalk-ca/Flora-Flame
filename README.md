@@ -1,4 +1,4 @@
-# Flora & Flame — Premium Toronto Lifestyle
+# Talk To Me — Premium Toronto Lifestyle
 
 A premium, responsive storefront and admin dashboard for a North York cannabis-lifestyle brand, built with
 **Next.js 16 (App Router, Cache Components)**, **TypeScript**, **Tailwind CSS v4**, **Supabase** and **Lucide** icons.
@@ -151,7 +151,7 @@ qualified Ontario counsel:
   including lifestyle advertising and content appealing to young people. The marketing pages pair city and interior
   photography with brand copy. **Have counsel review the homepage and About page imagery and copy**, and consider
   restricting access or separating lifestyle content from product listings if advised.
-- **Age gate:** a 19+ date-of-birth confirmation. The date of birth is never stored or sent. It is **not**
+- **Age gate:** an "I am 19 or older" checkbox. No personal data is collected. It is **not**
   identity verification — every sale must check government-issued photo ID.
 - **Payments:** no provider is registered (`lib/payments/index.ts`). Stripe is hard-blocked for cannabis and
   tobacco: its restricted-business policy prohibits marijuana businesses and restricts tobacco. Only add an

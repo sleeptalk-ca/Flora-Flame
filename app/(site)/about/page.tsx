@@ -9,7 +9,7 @@ import { BRAND } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "The story of Flora & Flame — a premium Toronto lifestyle house rooted in North York, built on quality, discretion and design.",
+  description: "The story of Talk To Me — a premium Toronto lifestyle house rooted in North York, built on quality, discretion and design.",
   alternates: { canonical: "/about" },
 };
 

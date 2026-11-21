@@ -8,7 +8,7 @@ export default function PrivacyPage() {
     <LegalPage
       current="/legal/privacy"
       title="Privacy policy"
-      intro="How Flora & Flame collects, uses and protects personal information, in line with Canada's PIPEDA."
+      intro="How Talk To Me collects, uses and protects personal information, in line with Canada's PIPEDA."
     >
       <h2>What we collect</h2>
       <ul>
@@ -16,7 +16,7 @@ export default function PrivacyPage() {
           <strong>Contact form:</strong> your name, email, optional phone number, and your message — only so we can reply.
         </li>
         <li>
-          <strong>Age confirmation:</strong> your date of birth is evaluated in your browser only. It is never stored or sent to us. We set
+          <strong>Age confirmation:</strong> you tick a box confirming you are 19 or older. No personal information is collected. We set
           a single cookie (<code>ff_age_verified</code>) that records only that the confirmation was completed.
         </li>
         <li>

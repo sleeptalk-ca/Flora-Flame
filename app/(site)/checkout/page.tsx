@@ -7,7 +7,7 @@ import { getCheckoutStatus } from "@/lib/payments";
 
 export const metadata: Metadata = {
   title: "Ordering status",
-  description: "Online ordering status for Flora & Flame.",
+  description: "Online ordering status for Talk To Me.",
   robots: { index: false },
 };
 

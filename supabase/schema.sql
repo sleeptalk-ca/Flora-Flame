@@ -1,5 +1,5 @@
 -- ─────────────────────────────────────────────────────────────
--- Flora & Flame — Supabase schema
+-- Talk To Me — Supabase schema
 -- Run in the Supabase SQL editor (or `supabase db push`).
 --
 -- Security model:

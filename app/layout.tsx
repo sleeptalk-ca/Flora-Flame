@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   description: BRAND.description,
   applicationName: BRAND.name,
-  keywords: ["Flora & Flame", "North York", "Toronto", "lifestyle", "accessories", "Ontario", "19+"],
+  keywords: ["Talk To Me", "North York", "Toronto", "lifestyle", "accessories", "Ontario", "19+"],
   openGraph: {
     type: "website",
     locale: BRAND.locale,

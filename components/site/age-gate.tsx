@@ -5,22 +5,11 @@ import { ShieldCheck } from "lucide-react";
 import { LogoMark } from "./logo";
 import { AGE_COOKIE, BRAND } from "@/lib/brand";
 import { Button } from "@/components/ui/button";
-import { inputClasses } from "@/components/ui/field";
-import { cn } from "@/lib/utils";
-
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-function ageOn(birth: Date, today: Date) {
-  let age = today.getFullYear() - birth.getFullYear();
-  const m = today.getMonth() - birth.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
-  return age;
-}
 
 /**
  * Age confirmation gate (Ontario minimum age: 19).
  *
- * Privacy: the date of birth is evaluated on this device only. It is never stored or transmitted —
+ * The visitor ticks a box confirming they are 19 or older. No personal data is collected —
  * only a non-identifying flag cookie (`ff_age_verified=1`) is set.
  *
  * Compliance: this is an age *confirmation*, not identity verification. Any sale must still be
@@ -28,16 +17,12 @@ function ageOn(birth: Date, today: Date) {
  */
 const noopSubscribe = () => () => {};
 const readVerified = () => document.documentElement.getAttribute("data-age-verified") === "true";
-const readYear = () => new Date().getFullYear();
 
 export function AgeGate() {
   // Server render always shows the gate; the client reads the flag set by the <head> boot script.
   const alreadyVerified = useSyncExternalStore(noopSubscribe, readVerified, () => false);
-  const clientYear = useSyncExternalStore(noopSubscribe, readYear, () => null);
   const [confirmed, setConfirmed] = useState(false);
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
+  const [isOfAge, setIsOfAge] = useState(false);
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [denied, setDenied] = useState(false);
@@ -45,20 +30,10 @@ export function AgeGate() {
 
   if (alreadyVerified || confirmed) return null;
 
-  const currentYear = clientYear ?? 2026;
-  const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
-
   function confirm(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    const y = Number(year), m = Number(month), d = Number(day);
-    if (!y || !m || !d) return setError("Please enter your full date of birth.");
-    const birth = new Date(y, m - 1, d);
-    if (birth.getMonth() !== m - 1) return setError("Please enter a valid date.");
-    if (ageOn(birth, new Date()) < BRAND.minimumAge) {
-      setDenied(true);
-      return;
-    }
+    if (!isOfAge) return setError(`Please confirm that you are ${BRAND.minimumAge} or older.`);
     const maxAge = remember ? `; max-age=${60 * 60 * 24 * 30}` : "";
     const secure = location.protocol === "https:" ? "; secure" : "";
     document.cookie = `${AGE_COOKIE}=1; path=/; samesite=lax${maxAge}${secure}`;
@@ -102,33 +77,22 @@ export function AgeGate() {
                 Are you of legal age?
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-muted">
-                You must be <strong className="text-cream">19 or older</strong> to enter. Please confirm your date of birth.
+                You must be <strong className="text-cream">19 or older</strong> to enter. Please confirm your age below.
               </p>
 
               <form onSubmit={confirm} className="mt-8 text-left" noValidate>
-                <fieldset>
-                  <legend className="sr-only">Date of birth</legend>
-                  <div className="grid grid-cols-[1fr_1.4fr_1.2fr] gap-2">
-                    <select aria-label="Day" value={day} onChange={(e) => setDay(e.target.value)} className={cn(inputClasses, "px-3")}>
-                      <option value="">Day</option>
-                      {Array.from({ length: 31 }, (_, i) => (
-                        <option key={i + 1} value={i + 1}>{i + 1}</option>
-                      ))}
-                    </select>
-                    <select aria-label="Month" value={month} onChange={(e) => setMonth(e.target.value)} className={cn(inputClasses, "px-3")}>
-                      <option value="">Month</option>
-                      {MONTHS.map((mo, i) => (
-                        <option key={mo} value={i + 1}>{mo}</option>
-                      ))}
-                    </select>
-                    <select aria-label="Year" value={year} onChange={(e) => setYear(e.target.value)} className={cn(inputClasses, "px-3")}>
-                      <option value="">Year</option>
-                      {years.map((y) => (
-                        <option key={y} value={y}>{y}</option>
-                      ))}
-                    </select>
-                  </div>
-                </fieldset>
+                <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-line bg-ink/50 p-4 text-sm text-cream">
+                  <input
+                    type="checkbox"
+                    checked={isOfAge}
+                    onChange={(e) => {
+                      setIsOfAge(e.target.checked);
+                      if (e.target.checked) setError(null);
+                    }}
+                    className="size-5 accent-[#A6B889]"
+                  />
+                  I confirm that I am {BRAND.minimumAge} years of age or older
+                </label>
                 {error && <p role="alert" className="mt-3 text-xs text-danger">{error}</p>}
 
                 <label className="mt-5 flex cursor-pointer items-center gap-3 text-xs text-muted">
@@ -141,7 +105,7 @@ export function AgeGate() {
                   Remember me on this device for 30 days (not recommended on shared devices)
                 </label>
 
-                <Button type="submit" size="lg" className="mt-6 w-full">
+                <Button type="submit" size="lg" className="mt-6 w-full" disabled={!isOfAge}>
                   Enter
                 </Button>
                 <button
@@ -156,7 +120,7 @@ export function AgeGate() {
               <div className="mt-6 flex gap-3 rounded-2xl border border-line bg-ink/50 p-4 text-left text-[11px] leading-relaxed text-muted">
                 <ShieldCheck className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
                 <p>
-                  Your date of birth is checked on this device only and is never stored or sent. This confirmation is not
+                  No personal information is collected for this check. This confirmation is not
                   identity verification — valid government-issued photo ID is required for any purchase.
                 </p>
               </div>

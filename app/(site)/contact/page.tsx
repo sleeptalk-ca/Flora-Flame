@@ -10,7 +10,7 @@ import { telHref } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Contact Flora & Flame in North York, Ontario. Email, phone and a secure contact form.",
+  description: "Contact Talk To Me in North York, Ontario. Email, phone and a secure contact form.",
   alternates: { canonical: "/contact" },
 };
 

@@ -77,7 +77,7 @@ export default function ShopPage({ searchParams }: { searchParams: SearchParams 
     <>
       <PageHero
         eyebrow="The collection"
-        title={<>Shop <em className="text-accent">Flora &amp; Flame</em></>}
+        title={<>Shop <em className="text-accent">Talk To Me</em></>}
         description="Cannabis flowers, grabba and accessories — a deliberately small edit for adults 19+."
         image={<SmartImage src={IMAGES.flowerHero} alt="" fill priority sizes="100vw" className="object-cover object-center opacity-60" />}
       />

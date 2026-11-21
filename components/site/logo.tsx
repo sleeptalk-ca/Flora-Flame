@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export function LogoMark({ className }: { className?: string }) {
-  // A leaf that resolves into a flame — Flora & Flame.
+  // Brand mark for Talk To Me (TTM).
   return (
     <svg viewBox="0 0 32 32" className={cn("size-7", className)} fill="none" aria-hidden>
       <circle cx="16" cy="16" r="15" stroke="currentColor" strokeOpacity=".35" />
@@ -17,10 +17,10 @@ export function LogoMark({ className }: { className?: string }) {
 
 export function Logo({ className, href = "/" }: { className?: string; href?: string }) {
   return (
-    <Link href={href} className={cn("group inline-flex items-center gap-3 text-cream", className)} aria-label="Flora & Flame — home">
+    <Link href={href} className={cn("group inline-flex items-center gap-3 text-cream", className)} aria-label="Talk To Me — home">
       <LogoMark className="text-accent transition-transform duration-700 ease-[var(--ease-luxe)] group-hover:rotate-[20deg]" />
       <span className="font-display text-2xl leading-none tracking-tight">
-        Flora <span className="italic text-accent">&amp;</span> Flame
+        Talk <span className="italic text-accent">To</span> Me
       </span>
     </Link>
   );

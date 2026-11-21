@@ -8,7 +8,7 @@ export default function TermsPage() {
     <LegalPage
       current="/legal/terms"
       title="Terms of use"
-      intro="The rules for using the Flora & Flame website. Please read them carefully."
+      intro="The rules for using the Talk To Me website. Please read them carefully."
     >
       <h2>1. Eligibility</h2>
       <p>
@@ -38,7 +38,7 @@ export default function TermsPage() {
       </p>
       <h2>6. Intellectual property</h2>
       <p>
-        The Flora &amp; Flame name, logo and original content belong to the operator. Third-party photography is used under the
+        The Talk To Me name, logo and original content belong to the operator. Third-party photography is used under the
         licence of its source.
       </p>
       <h2>7. Limitation of liability</h2>
