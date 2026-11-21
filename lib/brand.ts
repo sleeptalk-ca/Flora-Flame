@@ -2,6 +2,8 @@
 export const BRAND = {
   name: "Talk To Me",
   shortName: "TTM",
+  /** Fixed contact phone — not editable from the admin. */
+  phone: "+1 (249) 875-8541",
   tagline: "Premium Toronto Lifestyle.",
   description:
     "Talk To Me is a premium Toronto lifestyle brand based in North York, Ontario — a curated edit of cannabis flower, grabba and accessories for adults 19+.",

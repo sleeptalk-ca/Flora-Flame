@@ -1,3 +1,4 @@
+import { BRAND } from "@/lib/brand";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
@@ -27,7 +28,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Sear
   const settings = await getSettings();
   const items = [
     { icon: Mail, label: "Email", value: settings.contact_email, href: `mailto:${settings.contact_email}` },
-    { icon: Phone, label: "Phone", value: settings.contact_phone, href: telHref(settings.contact_phone) },
+    { icon: Phone, label: "Phone", value: BRAND.phone, href: telHref(BRAND.phone) },
     { icon: MapPin, label: "Address", value: settings.contact_address },
     { icon: Clock, label: "Hours", value: settings.business_hours },
   ];

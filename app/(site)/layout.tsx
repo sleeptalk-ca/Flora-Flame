@@ -14,7 +14,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     slogan: BRAND.tagline,
     url: siteUrl(),
     email: settings.contact_email,
-    telephone: settings.contact_phone,
+    telephone: BRAND.phone,
     address: { "@type": "PostalAddress", addressLocality: "North York", addressRegion: "ON", addressCountry: "CA" },
   };
   return (

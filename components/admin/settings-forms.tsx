@@ -17,13 +17,10 @@ export function ContactSettingsForm({ settings }: { settings: SiteSettings }) {
       <ActionFeedback state={state} />
       <div className="grid gap-5 md:grid-cols-2">
         <TextField name="contact_email" label="Email" type="email" defaultValue={settings.contact_email} error={e.contact_email} />
-        <TextField name="contact_phone" label="Phone" defaultValue={settings.contact_phone} error={e.contact_phone} />
+        <TextField name="business_hours" label="Business hours" defaultValue={settings.business_hours} error={e.business_hours} />
       </div>
       <TextField name="contact_address" label="Address" defaultValue={settings.contact_address} error={e.contact_address} />
-      <div className="grid gap-5 md:grid-cols-2">
-        <TextField name="business_hours" label="Business hours" defaultValue={settings.business_hours} error={e.business_hours} />
-        <TextField name="instagram_url" label="Instagram URL" hint="Optional" defaultValue={settings.instagram_url} error={e.instagram_url} />
-      </div>
+      <TextField name="instagram_url" label="Instagram URL" hint="Optional" defaultValue={settings.instagram_url} error={e.instagram_url} />
       <SubmitButton pending={pending}>Save contact information</SubmitButton>
     </form>
   );

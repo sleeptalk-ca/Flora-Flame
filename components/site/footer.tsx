@@ -58,8 +58,8 @@ export async function Footer() {
                 </a>
               </li>
               <li>
-                <a href={telHref(settings.contact_phone)} className="inline-flex items-center gap-3 transition-colors hover:text-accent">
-                  <Phone className="size-4" aria-hidden /> {settings.contact_phone}
+                <a href={telHref(BRAND.phone)} className="inline-flex items-center gap-3 transition-colors hover:text-accent">
+                  <Phone className="size-4" aria-hidden /> {BRAND.phone}
                 </a>
               </li>
               <li className="inline-flex items-center gap-3">

@@ -279,7 +279,7 @@ export default async function HomePage() {
               <ul className="divide-y divide-line rounded-2xl border border-line bg-ink/40">
                 {[
                   { icon: Mail, label: "Email", value: settings.contact_email, href: `mailto:${settings.contact_email}` },
-                  { icon: Phone, label: "Phone", value: settings.contact_phone, href: telHref(settings.contact_phone) },
+                  { icon: Phone, label: "Phone", value: BRAND.phone, href: telHref(BRAND.phone) },
                   { icon: MapPin, label: "Location", value: settings.contact_address },
                 ].map(({ icon: Icon, label, value, href }) => (
                   <li key={label} className="flex items-center gap-5 p-6">

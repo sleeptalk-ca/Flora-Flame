@@ -118,7 +118,6 @@ export const manualOrderSchema = z.object({
 
 export const settingsSchema = z.object({
   contact_email: z.string().trim().email("Valid email required").max(200),
-  contact_phone: trimmed(40).min(7, "Phone is required"),
   contact_address: trimmed(200).min(2, "Address is required"),
   business_hours: trimmed(200),
   instagram_url: z

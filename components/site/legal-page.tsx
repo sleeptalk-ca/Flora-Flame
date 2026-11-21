@@ -1,3 +1,4 @@
+import { BRAND } from "@/lib/brand";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Container, PageHero } from "./section-heading";
@@ -54,7 +55,7 @@ export async function LegalPage({
               <a className="text-accent link-underline" href={`mailto:${settings.contact_email}`}>
                 {settings.contact_email}
               </a>{" "}
-              or call {settings.contact_phone}. {settings.contact_address}.
+              or call {BRAND.phone}. {settings.contact_address}.
             </p>
           </article>
         </div>

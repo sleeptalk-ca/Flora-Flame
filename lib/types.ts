@@ -109,7 +109,6 @@ export interface ComplianceSettings {
 
 export interface SiteSettings {
   contact_email: string;
-  contact_phone: string;
   contact_address: string;
   business_hours: string;
   instagram_url: string;

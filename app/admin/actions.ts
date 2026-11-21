@@ -361,7 +361,6 @@ export async function saveContactSettingsAction(_prev: ActionState, formData: Fo
   await requireAdmin();
   const parsed = settingsSchema.safeParse({
     contact_email: str(formData, "contact_email"),
-    contact_phone: str(formData, "contact_phone"),
     contact_address: str(formData, "contact_address"),
     business_hours: str(formData, "business_hours"),
     instagram_url: str(formData, "instagram_url"),
